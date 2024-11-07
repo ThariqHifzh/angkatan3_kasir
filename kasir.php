@@ -1,7 +1,10 @@
 <?php 
 session_start();
 session_regenerate_id(true);
+require_once "config/koneksi.php";
 
+// $id_user = $_SESSION['id'];
+$queryDetail = mysqli_query($koneksi, "SELECT * FROM penjualan");
 //Jika session nya isi, maka melempar ke dashboard.php
 // if(empty($_SESSION['nama']) && empty($_SESSION['email'])){
 //     header("Location: kasir.php");
@@ -71,6 +74,25 @@ session_regenerate_id(true);
                                         <th>Settings</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    <?php $no = 1; while ($rowDetail = mysqli_fetch_assoc($queryDetail)): ?>
+                                    <tr>
+                                        <td><?php echo $no++ ?></td>
+                                        <td><?php echo $rowDetail['kode_transaksi'] ?></td>
+                                        <td><?php echo $rowDetail['tanggal_transaksi'] ?></td>
+                                        <td>oke</td>
+                                        <td>gass</td>
+                                        <td>
+                                            <a class="btn btn-success btn-sm"
+                                                href="tambah-transaction.php?edit=<?php echo $rowDetail['id'] ?>">Edit</a>
+
+                                            <a class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Apakah Anda Yakin untuk Menghapus Data Ini?')"
+                                                href="kasir.php?delete=<?php echo $rowDetail['id'] ?>">Delete</a>
+                                        </td>
+                                    </tr>
+                                    <?php endwhile ?>
+                                </tbody>
                             </table>
                         </div>
                     </div>
